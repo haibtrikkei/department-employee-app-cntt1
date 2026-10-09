@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: backend-app
+    restart: always
+    ports:
+      - "8089:809"
+    environment:
+        SPRING_DATASOURCE_URL: jdbc:mysql://depart-employee-db:3306/department_employee_db?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=Asia/Ho_Chi_Minh
+        SPRING_DATASOURCE_USERNAME: root
+        SPRING_DATASOURCE_PASSWORD: 1234$
+        PAGE_EMPLOYEE_SIZE: 4
+    depends_on:
+      - depart-employee-db
+  depart-employee-db:
+    image: mysql:8.4
+    container_name: depart-employee-db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234$
+      MYSQL_DATABASE: department_employee_db
+#    ports:
+#        - "3307:3306"
+    volumes:
+      - depart-employee-db-data:/var/lib/mysql
+volumes:
+  depart-employee-db-data:
